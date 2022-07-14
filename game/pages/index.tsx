@@ -127,11 +127,7 @@ const Home: NextPage = () => {
                 onClick={() => playGame(symbol, key)}
                 key={key}
               >
-                <div
-                  className={`transition ease-in-out duration-1000 hover:scale-125  ${
-                    symbol === "X" ? "text-blue-600" : "text-green-400"
-                  }`}
-                >
+                <div className="transition ease-in-out duration-1000 hover:scale-125">
                   {symbol}
                 </div>
               </button>
