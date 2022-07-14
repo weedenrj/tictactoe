@@ -1,24 +1,23 @@
-import type { NextPage } from "next";
 import { useState, useEffect } from "react";
 
 /**
  * @author Rob Weeden
  * @date 7/14/2022
- * @brief A Tic-Tact-Toe game build with NextJS, TailwindCSS, Typescript and including preact.
+ * @brief A Tic-Tact-Toe game build with NextJS, TailwindCSS and including preact.
  *        This is typically what I install in every project.
  *
  * ? 2 hour version - I actually only spend 1h 20min on this before I ran out of ideas.
  *
  * @returns The full game in a web page
  */
-const Home: NextPage = () => {
+const Home = () => {
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
   const [xGoes, setXGoes] = useState(true);
   const [winner, setWinner] = useState("");
   const [cpuPlayer, setCpuPlayer] = useState(false);
   const [isTie, setIsTie] = useState(false);
 
-  function playGame(symbol: string, key: number) {
+  function playGame(symbol, key) {
     if (!winner) {
       let boardCopy = [...board]; // reference variables cost me 3 minutes 🙄
 
@@ -104,13 +103,17 @@ const Home: NextPage = () => {
     setIsTie(false);
     setXGoes(true);
   }
-  useEffect(() => {
-    if (!xGoes && cpuPlayer) {
-      computerTurn();
-    }
-  }, [xGoes]);
 
-  useEffect(() => {
+  useEffect(
+    (xGoes, cpuPlayer, computerTurn) => {
+      if (!xGoes && cpuPlayer) {
+        computerTurn();
+      }
+    },
+    [xGoes, cpuPlayer]
+  );
+
+  useEffect((checkWinner) => {
     checkWinner();
   }, [board]);
 
