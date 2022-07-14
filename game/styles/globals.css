@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btns {
+  @apply m-2 border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200;
+}
+
+.center-screen {
+  @apply flex flex-col justify-center items-center;
+}

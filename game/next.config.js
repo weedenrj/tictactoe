@@ -18,5 +18,5 @@ module.exports = {
     formats: ['image/webp']
   },
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,  
 }
