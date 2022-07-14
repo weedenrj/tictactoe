@@ -1,6 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 
 /**
@@ -9,8 +7,7 @@ import { useState, useEffect } from "react";
  * @brief A Tic-Tact-Toe game build with NextJS, TailwindCSS, Typescript and including preact.
  *        This is typically what I install in every project.
  *
- * ? 1 hour version - game is fully playable with tie detection
- * ? and meets all required functionality. Might have bugs and messy code.
+ * ? 2 hour version - I actually only spend 1h 20min on this before I ran out of ideas.
  *
  * @returns The full game in a web page
  */
@@ -44,7 +41,6 @@ const Home: NextPage = () => {
     while (boardCopy[num] != "") {
       num = Math.floor(Math.random() * 9);
     }
-    console.log(num);
     boardCopy[num] = "O";
     setBoard(boardCopy);
     setXGoes(!xGoes);
@@ -98,6 +94,7 @@ const Home: NextPage = () => {
       setXGoes(true);
     }
     setWinner("");
+    setIsTie(false);
   }
 
   function restart() {
@@ -118,18 +115,24 @@ const Home: NextPage = () => {
   }, [board]);
 
   return (
-    <div className="min-w-screen min-h-screen flex flex-col justify-center items-center">
+    <div className="min-w-screen min-h-screen center-screen bg-gradient-to-bl from-gray-700 via-gray-900 to-black">
       {!winner && !isTie && (
         <>
           {/* BOARD */}
-          <div className="grid grid-cols-3 border-2 border-black">
+          <div className="grid grid-cols-3 border-2 border-black bg-white">
             {board.map((symbol, key) => (
               <button
-                className="w-24 h-24 border-2 border-black text-3xl"
+                className="w-36 h-36 border-2 border-black text-7xl"
                 onClick={() => playGame(symbol, key)}
                 key={key}
               >
-                {symbol}
+                <div
+                  className={`transition ease-in-out duration-1000 hover:scale-125  ${
+                    symbol === "X" ? "text-blue-600" : "text-green-400"
+                  }`}
+                >
+                  {symbol}
+                </div>
               </button>
             ))}
           </div>
@@ -145,6 +148,7 @@ const Home: NextPage = () => {
                 setCpuPlayer(!cpuPlayer);
                 reset();
                 setWinner("");
+                setXGoes(true);
               }}
             >
               Practice against a computer: {String(cpuPlayer)}
@@ -155,7 +159,9 @@ const Home: NextPage = () => {
 
       {winner && (
         <div className="min-w-screen min-h-screen flex flex-col justify-center items-center">
-          <div className="text-3xl">{winner} Has Won The Game!</div>
+          <div className="text-7xl text-green-600 my-2">
+            {winner} Has Won The Game!
+          </div>
           <button className="btns" onClick={() => startNewGame()}>
             Play another game?
           </button>
@@ -164,7 +170,7 @@ const Home: NextPage = () => {
 
       {isTie && (
         <div className="min-w-screen min-h-screen flex flex-col justify-center items-center">
-          <div className="text-3xl">Tie Game!</div>
+          <div className="text-7xl text-green-600">Tie Game!</div>
           <button
             className="btns"
             onClick={() => {
